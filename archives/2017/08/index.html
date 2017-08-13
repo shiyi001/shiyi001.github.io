@@ -77,6 +77,92 @@ ga('send', 'pageview');
       <div id="main" class="wrapper">
         <div id="primary" class="site-content"><div id="content" role="main">
   
+    <article id="post-“CS231N实验：KNN" class="post-“CS231N实验：KNN post type-post status-publish format-standard hentry">
+    <!---->
+
+      <header class="entry-header">
+        
+        
+  
+    <h1 class="entry-title">
+      <a class="article-title" href="/“CS231N实验：KNN/">CS231N实验：KNN</a>
+    </h1>
+  
+
+        
+        <div class="comments-link">
+            
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/“CS231N实验：KNN/" data-id="cj6a6o36z0000x47qg3zn9iuj" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+        </div><!-- .comments-link -->
+      </header><!-- .entry-header -->
+
+    <div class="entry-content">
+      
+        <blockquote>
+<p>PS: 本文默认已学习CS231N相关课程并掌握相关知识。</p>
+</blockquote>
+<p>KNN的实验部分主要分为3大块内容：</p>
+<ul>
+<li>计算测试集数据与训练集数据之间的距离，存放在dists矩阵中</li>
+<li>用距离最近的K个标签，做classifier得到测试集label</li>
+<li>交叉验证</li>
+</ul>
+<p>接下来我们对这三部分进行探究</p>
+<h2 id="距离计算">距离计算</h2>
+<p>实验中分别让我们用two-loops, one-loop和no-loop计算距离。</p>
+<p>假设我们的训练集规模为 $ n * k $, 测试集规模为 $ m * k $, 那么计算距离的方法如下：</p>
+<p><span class="math display">\[ dists[i][j] = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \]</span></p>
+<p>其中，dists为$ m * n $的矩阵</p>
+<p>那么，two-loops的计算方法就呼之欲出了，就是对两个$ k $维向量计算距离：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">for i in xrange(num_test):</div><div class="line">  for j in xrange(num_train):</div><div class="line">    dists[i][j] = np.sqrt(np.sum(np.square(X[i] - self.X_train[j])))</div></pre></td></tr></table></figure>
+<p>现在，我们考虑下one-loop的算法。对于测试集中每一个数据，都要与训练集中每个数据计算距离。其实我们可以利用numpy的<a href="https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html" target="_blank" rel="external">broadcast</a>,对每个测试集中的数据计算他到所有训练集数据的距离：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">for i in xrange(num_test):</div><div class="line">    dists[i] = np.sqrt(np.sum(np.square(X[i] - self.X_train), axis=1))</div></pre></td></tr></table></figure>
+<p>接下来，我们考虑no-loop的做法，这就需要用到一些矩阵运算的知识。我们将平方项展开:</p>
+<span class="math display">\[\begin{align}
+dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
+&amp; = \sqrt{\sum_{l=1}^k(test[i][l]^2 - 2 * test[i][l] * train[j][l] + train[j][l]^2)} \\
+&amp; = \sqrt{- 2 * \sum_{l=1}^k{test[i][l] * train[j][l]} + \sum_{l=1}^k{test[i][l]^2} + \sum_{l=1}^k{train[j][l]^2}}
+\end{align}\]</span>
+<p>在这里我们注意到, <span class="math inline">\({\sum_{l=1}^{k}{test[i][l] * train[j][l]}}\)</span> 就是 <span class="math inline">\(test * train^T\)</span> , 而 <span class="math inline">\(\sum_{l=1}^k{test[i][l]^2}\)</span> 和 <span class="math inline">\(\sum_{l=1}^k{train[j][l]^2}\)</span> 只是对矩阵中的 <span class="math inline">\(k\)</span> 维向量求平方和，可以用numpy实现。代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dists = np.sqrt(-2*np.dot(X, self.X_train.T) + np.sum(np.square(self.X_train), axis = 1) + np.transpose([np.sum(np.square(X), axis = 1)]))</div></pre></td></tr></table></figure>
+<h2 id="计算测试集label">计算测试集label</h2>
+<p>在得到dists矩阵后，我们就可以计算测试集中每个样本的label。<a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm" target="_blank" rel="external">KNN</a>算法就是获得距离样本最近的K个点，然后将这K个点中出现最多的label作为样本label：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># 获得最近的k个点标签</div><div class="line">dist = np.argsort(dists[i])</div><div class="line">for i in xrange(k):</div><div class="line">    closest_y.append(self.y_train[dist[i]])</div><div class="line"></div><div class="line"># 获得出现最多的label</div><div class="line">y_pred[i] = np.argmax(np.bincount(closest_y))</div></pre></td></tr></table></figure>
+<h2 id="交叉验证">交叉验证</h2>
+<p><a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)" target="_blank" rel="external">交叉验证</a>最主要的工作在于数据集的划分，实验中提供了<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.array_split.html" target="_blank" rel="external">np.array_split</a>作为参考。实验中用了5-floder交叉验证。我们使用np.vstack将其他四份数据合在一起作为训练集，剩下一份作为验证集。</p>
+<h2 id="代码参考">代码参考</h2>
+<ul>
+<li>https://github.com/lightaime/cs231n</li>
+</ul>
+
+      
+    </div><!-- .entry-content -->
+
+    <footer class="entry-meta">
+    <a href="/“CS231N实验：KNN/">
+    <time datetime="2017-08-13T03:40:41.000Z" class="entry-date">
+        2017-08-13
+    </time>
+</a>
+    
+  <span class="article-delim">&#8226;</span>
+  <div class="article-category">
+  <a class="article-category-link" href="/categories/CS231N实验/">CS231N实验</a>
+  </div>
+
+    
+  <span class="article-delim">&#8226;</span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KNN/">KNN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+
+    </footer>
+</article>
+
+
+
+
+
+
+  
     <article id="post-终于搭好了博客" class="post-终于搭好了博客 post type-post status-publish format-standard hentry">
     <!---->
 
@@ -92,7 +178,7 @@ ga('send', 'pageview');
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/终于搭好了博客/" data-id="cj68yqtp500006s7qdnfrdfjc" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/终于搭好了博客/" data-id="cj6a6o37e0002x47q1m881fm8" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
@@ -220,6 +306,10 @@ ga('send', 'pageview');
       <ul>
         
           <li>
+            <a href="/“CS231N实验：KNN/">CS231N实验：KNN</a>
+          </li>
+        
+          <li>
             <a href="/终于搭好了博客/">终于搭好了博客</a>
           </li>
         
@@ -232,20 +322,34 @@ ga('send', 'pageview');
   <aside class="widget">
     <h3 class="widget-title">Categories</h3>
     <div class="widget-content">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/杂记/">杂记</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS231N实验/">CS231N实验</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂记/">杂记</a><span class="category-list-count">1</span></li></ul>
     </div>
   </aside>
 
   
     
+  <aside class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-content">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KNN/">KNN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </aside>
+
   
     
+  <aside class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-content tagcloud">
+      <a href="/tags/KNN/" style="font-size: 10px;">KNN</a> <a href="/tags/机器学习/" style="font-size: 10px;">机器学习</a>
+    </div>
+  </aside>
+
   
     
   <aside class="widget">
     <h3 class="widget-title">Archives</h3>
     <div class="widget-content">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </aside>
 
@@ -279,6 +383,23 @@ ga('send', 'pageview');
 
 <div id="bg"></div>
 
-  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>
