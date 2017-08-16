@@ -77,6 +77,70 @@ ga('send', 'pageview');
       <div id="main" class="wrapper">
         <div id="primary" class="site-content"><div id="content" role="main">
   
+    <article id="post-Softmax" class="post-Softmax post type-post status-publish format-standard hentry">
+    <!---->
+
+      <header class="entry-header">
+        
+        
+  
+    <h1 class="entry-title">
+      <a class="article-title" href="/Softmax/">CS231N实验：Softmax</a>
+    </h1>
+  
+
+        
+        <div class="comments-link">
+            
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/Softmax/" data-id="cj6f28smp00005s7qvxewswij" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+        </div><!-- .comments-link -->
+      </header><!-- .entry-header -->
+
+    <div class="entry-content">
+      
+        <blockquote>
+<p>PS: 本文默认已学习CS231N相关课程并掌握相关知识。</p>
+</blockquote>
+<p><strong>Softmax</strong>的实验部分跟<strong>SVM</strong>非常相似，所以本文就简单求下 <span class="math inline">\(loss\)</span> 和 <span class="math inline">\(grad\)</span></p>
+<p><strong>Softmax</strong>的 <span class="math inline">\(loss function\)</span> 定义为</p>
+<p><span class="math display">\[ L = - \frac{1}{m}\sum_{i=1}^{m}\ln{\frac{e^{(X[i]*W)[y[i]]}}{\sum_{i=1}^{C}{e^{(X[i]*W)[j]}}}} \]</span></p>
+<p>接下来我们求 <span class="math inline">\(grad\)</span></p>
+<p><span class="math display">\[ dW[:, l]  = 
+{\begin{cases} 
+    -X[i] + {\frac{e^{(X[i]*W)[l]}}{\sum_{i=1}^{C}{e^{(X[i]*W)[j]}}}} * X[i], &amp; l = y[i] \\
+    {\frac{e^{(X[i]*W)[l]}}{\sum_{i=1}^{C}{e^{(X[i]*W)[j]}}}} * X[i], &amp; l \neq y[i] \\
+    \end{cases} 
+}
+\]</span></p>
+
+      
+    </div><!-- .entry-content -->
+
+    <footer class="entry-meta">
+    <a href="/Softmax/">
+    <time datetime="2017-08-16T13:22:47.000Z" class="entry-date">
+        2017-08-16
+    </time>
+</a>
+    
+  <span class="article-delim">&#8226;</span>
+  <div class="article-category">
+  <a class="article-category-link" href="/categories/CS231N实验/">CS231N实验</a>
+  </div>
+
+    
+  <span class="article-delim">&#8226;</span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Softmax/">Softmax</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+
+    </footer>
+</article>
+
+
+
+
+
+
+  
     <article id="post-multiClassSVM" class="post-multiClassSVM post type-post status-publish format-standard hentry">
     <!---->
 
@@ -92,7 +156,7 @@ ga('send', 'pageview');
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/multiClassSVM/" data-id="cj6biguvx0000407q4vds05xk" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/multiClassSVM/" data-id="cj6f28sn500025s7qad874esn" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
@@ -115,7 +179,7 @@ ga('send', 'pageview');
 <p><span class="math display">\[ L = \frac{1}{m}\sum_{i=1}^{m}{\sum_{j \neq y[i]}{max{(0, f(X[i])[j] - f(X[i])[y[i]] + 1)}}}\]</span></p>
 <p>实验中已经帮我们实现了 <span class="math inline">\(loss function\)</span> ,接下来我们要做的就是计算 <span class="math inline">\(grad\)</span> 。众所周知，<span class="math inline">\(grad = \frac{\partial L}{\partial W}\)</span> 。 <span class="math inline">\(loss function\)</span> 只是简单的相加，所以我们考虑每一项不为0的组成部分对导数的贡献。</p>
 <span class="math display">\[\begin{align}
-dW[:, l] &amp; = \frac{\partial (f(X[i])[j] - f(X[i])[y[i]] + 1)}{\partial W} \\
+dW[:, l] &amp; = \frac{\partial (f(X[i])[j] - f(X[i])[y[i]] + 1)}{\partial W[:, l]} \\
 &amp; = {\begin{cases} 
     X[i], &amp; l = j \\
     -X[i], &amp; l = y[i] \\
@@ -172,7 +236,7 @@ dW[:, l] &amp; = \frac{\partial (f(X[i])[j] - f(X[i])[y[i]] + 1)}{\partial W} \\
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/“CS231N实验：KNN/" data-id="cj6biguwc0002407qxqloq4t6" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/“CS231N实验：KNN/" data-id="cj6f28snl00065s7qap5r76xi" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
@@ -258,7 +322,7 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/终于搭好了博客/" data-id="cj6biguwo0005407q1q22nogb" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/终于搭好了博客/" data-id="cj6f28sn500055s7q09xz38m7" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
@@ -386,6 +450,10 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
       <ul>
         
           <li>
+            <a href="/Softmax/">CS231N实验：Softmax</a>
+          </li>
+        
+          <li>
             <a href="/multiClassSVM/">CS231N实验：SVM</a>
           </li>
         
@@ -406,7 +474,7 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
   <aside class="widget">
     <h3 class="widget-title">Categories</h3>
     <div class="widget-content">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS231N实验/">CS231N实验</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂记/">杂记</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS231N实验/">CS231N实验</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂记/">杂记</a><span class="category-list-count">1</span></li></ul>
     </div>
   </aside>
 
@@ -415,7 +483,7 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
   <aside class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-content">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KNN/">KNN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVM/">SVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KNN/">KNN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVM/">SVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Softmax/">Softmax</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">3</span></li></ul>
     </div>
   </aside>
 
@@ -424,7 +492,7 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
   <aside class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-content tagcloud">
-      <a href="/tags/KNN/" style="font-size: 10px;">KNN</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/机器学习/" style="font-size: 20px;">机器学习</a>
+      <a href="/tags/KNN/" style="font-size: 10px;">KNN</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Softmax/" style="font-size: 10px;">Softmax</a> <a href="/tags/机器学习/" style="font-size: 20px;">机器学习</a>
     </div>
   </aside>
 
@@ -433,7 +501,7 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
   <aside class="widget">
     <h3 class="widget-title">Archives</h3>
     <div class="widget-content">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </aside>
 

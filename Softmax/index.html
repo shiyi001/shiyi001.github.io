@@ -7,16 +7,9 @@
   
   <meta name="description" content="PS: 本文默认已学习CS231N相关课程并掌握相关知识。
 
-SVM的实验部分分为以下内容：
-
-计算loss和grad
-随机梯度下降
-模型调参
-
-计算loss和grad
-MultiClass SVM的方程为
-\[ f(x) = x * W \]
-其中， \(x\) 为 \(1*" />
+Softmax的实验部分跟SVM非常相似，所以本文就简单求下 \(loss\) 和 \(grad\)
+Softmax的 \(loss function\) 定义为
+\[ L = - \frac{1}{m}\sum_{i=1}^{m" />
   
 
   
@@ -25,19 +18,19 @@ MultiClass SVM的方程为
   
   
   
-  <title>CS231N实验：SVM | Shiyi001&#39;s Blog</title>
+  <title>CS231N实验：Softmax | Shiyi001&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="PS: 本文默认已学习CS231N相关课程并掌握相关知识。  SVM的实验部分分为以下内容：  计算loss和grad 随机梯度下降 模型调参  计算loss和grad MultiClass SVM的方程为 \[ f(x) = x * W \] 其中， \(x\) 为 \(1*k\), W为 \(k*C\) ( \(C\) 是label种类) \(loss functi">
-<meta name="keywords" content="机器学习,SVM">
+  <meta name="description" content="PS: 本文默认已学习CS231N相关课程并掌握相关知识。  Softmax的实验部分跟SVM非常相似，所以本文就简单求下 \(loss\) 和 \(grad\) Softmax的 \(loss function\) 定义为 \[ L = - \frac{1}{m}\sum_{i=1}^{m}\ln{\frac{e^{(X[i]*W)[y[i]]}}{\sum_{i=1}^{C}{e^">
+<meta name="keywords" content="Softmax,机器学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CS231N实验：SVM">
-<meta property="og:url" content="shiyi001.github.io/multiClassSVM/index.html">
+<meta property="og:title" content="CS231N实验：Softmax">
+<meta property="og:url" content="shiyi001.github.io/Softmax/index.html">
 <meta property="og:site_name" content="Shiyi001&#39;s Blog">
-<meta property="og:description" content="PS: 本文默认已学习CS231N相关课程并掌握相关知识。  SVM的实验部分分为以下内容：  计算loss和grad 随机梯度下降 模型调参  计算loss和grad MultiClass SVM的方程为 \[ f(x) = x * W \] 其中， \(x\) 为 \(1*k\), W为 \(k*C\) ( \(C\) 是label种类) \(loss functi">
-<meta property="og:updated_time" content="2017-08-16T13:38:15.908Z">
+<meta property="og:description" content="PS: 本文默认已学习CS231N相关课程并掌握相关知识。  Softmax的实验部分跟SVM非常相似，所以本文就简单求下 \(loss\) 和 \(grad\) Softmax的 \(loss function\) 定义为 \[ L = - \frac{1}{m}\sum_{i=1}^{m}\ln{\frac{e^{(X[i]*W)[y[i]]}}{\sum_{i=1}^{C}{e^">
+<meta property="og:updated_time" content="2017-08-16T13:50:02.757Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CS231N实验：SVM">
-<meta name="twitter:description" content="PS: 本文默认已学习CS231N相关课程并掌握相关知识。  SVM的实验部分分为以下内容：  计算loss和grad 随机梯度下降 模型调参  计算loss和grad MultiClass SVM的方程为 \[ f(x) = x * W \] 其中， \(x\) 为 \(1*k\), W为 \(k*C\) ( \(C\) 是label种类) \(loss functi">
+<meta name="twitter:title" content="CS231N实验：Softmax">
+<meta name="twitter:description" content="PS: 本文默认已学习CS231N相关课程并掌握相关知识。  Softmax的实验部分跟SVM非常相似，所以本文就简单求下 \(loss\) 和 \(grad\) Softmax的 \(loss function\) 定义为 \[ L = - \frac{1}{m}\sum_{i=1}^{m}\ln{\frac{e^{(X[i]*W)[y[i]]}}{\sum_{i=1}^{C}{e^">
   
   
     <link rel="icon" href="/css/images/favicon.ico">
@@ -93,7 +86,7 @@ ga('send', 'pageview');
     </nav>
 </header>
       <div id="main" class="wrapper">
-        <div id="primary" class="site-content"><div id="content" role="main"><article id="post-multiClassSVM" class="post-multiClassSVM post type-post status-publish format-standard hentry">
+        <div id="primary" class="site-content"><div id="content" role="main"><article id="post-Softmax" class="post-Softmax post type-post status-publish format-standard hentry">
     <!---->
 
       <header class="entry-header">
@@ -101,14 +94,14 @@ ga('send', 'pageview');
         
   
     <h1 class="entry-title article-title">
-      CS231N实验：SVM
+      CS231N实验：Softmax
     </h1>
   
 
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/multiClassSVM/" data-id="cj6f28sn500025s7qad874esn" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/Softmax/" data-id="cj6f28smp00005s7qvxewswij" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
@@ -117,41 +110,25 @@ ga('send', 'pageview');
         <blockquote>
 <p>PS: 本文默认已学习CS231N相关课程并掌握相关知识。</p>
 </blockquote>
-<p>SVM的实验部分分为以下内容：</p>
-<ul>
-<li>计算loss和grad</li>
-<li>随机梯度下降</li>
-<li>模型调参</li>
-</ul>
-<h2 id="计算loss和grad">计算loss和grad</h2>
-<p>MultiClass SVM的方程为</p>
-<p><span class="math display">\[ f(x) = x * W \]</span></p>
-<p>其中， <span class="math inline">\(x\)</span> 为 <span class="math inline">\(1*k\)</span>, W为 <span class="math inline">\(k*C\)</span> ( <span class="math inline">\(C\)</span> 是label种类)</p>
-<p><span class="math inline">\(loss function\)</span> 定义为</p>
-<p><span class="math display">\[ L = \frac{1}{m}\sum_{i=1}^{m}{\sum_{j \neq y[i]}{max{(0, f(X[i])[j] - f(X[i])[y[i]] + 1)}}}\]</span></p>
-<p>实验中已经帮我们实现了 <span class="math inline">\(loss function\)</span> ,接下来我们要做的就是计算 <span class="math inline">\(grad\)</span> 。众所周知，<span class="math inline">\(grad = \frac{\partial L}{\partial W}\)</span> 。 <span class="math inline">\(loss function\)</span> 只是简单的相加，所以我们考虑每一项不为0的组成部分对导数的贡献。</p>
-<span class="math display">\[\begin{align}
-dW[:, l] &amp; = \frac{\partial (f(X[i])[j] - f(X[i])[y[i]] + 1)}{\partial W[:, l]} \\
-&amp; = {\begin{cases} 
-    X[i], &amp; l = j \\
-    -X[i], &amp; l = y[i] \\
-    0, &amp; other \\
+<p><strong>Softmax</strong>的实验部分跟<strong>SVM</strong>非常相似，所以本文就简单求下 <span class="math inline">\(loss\)</span> 和 <span class="math inline">\(grad\)</span></p>
+<p><strong>Softmax</strong>的 <span class="math inline">\(loss function\)</span> 定义为</p>
+<p><span class="math display">\[ L = - \frac{1}{m}\sum_{i=1}^{m}\ln{\frac{e^{(X[i]*W)[y[i]]}}{\sum_{i=1}^{C}{e^{(X[i]*W)[j]}}}} \]</span></p>
+<p>接下来我们求 <span class="math inline">\(grad\)</span></p>
+<p><span class="math display">\[ dW[:, l]  = 
+{\begin{cases} 
+    -X[i] + {\frac{e^{(X[i]*W)[l]}}{\sum_{i=1}^{C}{e^{(X[i]*W)[j]}}}} * X[i], &amp; l = y[i] \\
+    {\frac{e^{(X[i]*W)[l]}}{\sum_{i=1}^{C}{e^{(X[i]*W)[j]}}}} * X[i], &amp; l \neq y[i] \\
     \end{cases} 
 }
-\end{align}\]</span>
-<p>这样，我们就求出了 <span class="math inline">\(dW\)</span> 。</p>
-<h2 id="随机梯度下降">随机梯度下降</h2>
-<p>首先我们要从数据中随机获取 <span class="math inline">\(batch\_size\)</span> 样本（使用<a href="https://docs.scipy.org/doc/numpy-dev/reference/generated/numpy.random.choice.html" target="_blank" rel="external">numpy.randomchoice</a>）,然后用这些数据进行一轮迭代，获得grad,再进行下降。</p>
-<h2 id="模型调参">模型调参</h2>
-<p>SVM模型有各种不同的参数。我们用多重循环，得到每种参数的组合的train accuracy和val accuracy，并记录最好的。（比较简单暴力）</p>
+\]</span></p>
 
       
     </div><!-- .entry-content -->
 
     <footer class="entry-meta">
-    <a href="/multiClassSVM/">
-    <time datetime="2017-08-14T01:16:57.000Z" class="entry-date">
-        2017-08-14
+    <a href="/Softmax/">
+    <time datetime="2017-08-16T13:22:47.000Z" class="entry-date">
+        2017-08-16
     </time>
 </a>
     
@@ -162,7 +139,7 @@ dW[:, l] &amp; = \frac{\partial (f(X[i])[j] - f(X[i])[y[i]] + 1)}{\partial W[:, 
 
     
   <span class="article-delim">&#8226;</span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SVM/">SVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Softmax/">Softmax</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
 
     </footer>
 </article>
@@ -172,10 +149,8 @@ dW[:, l] &amp; = \frac{\partial (f(X[i])[j] - f(X[i])[y[i]] + 1)}{\partial W[:, 
 <nav class="nav-single">
     <h3 class="assistive-text">文章导航</h3>
     
-        <span class="nav-previous"><a href="/Softmax/" rel="prev"><span class="meta-nav">←</span> CS231N实验：Softmax</a></span>
     
-    
-        <span class="nav-next"><a href="/“CS231N实验：KNN/" rel="next">CS231N实验：KNN <span class="meta-nav">→</span></a></span>
+        <span class="nav-next"><a href="/multiClassSVM/" rel="next">CS231N实验：SVM <span class="meta-nav">→</span></a></span>
     
 </nav><!-- .nav-single -->
 
