@@ -5,8 +5,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   
   
-  <meta name="description" content="费尽九牛二虎之力，终于把博客搭好了。
-以后会在这里发布一些机器学习和深度学习相关的博客，欢迎大家围观哦~" />
+  <meta name="description" content="PS: 本文默认已学习CS231N相关课程并掌握相关知识。
+
+dropout的相关原理本文不再描述，详情请见Dropout (neural networks)
+那么我们怎么实现dropout呢？假设我们有 \(n\) 个神经元，每个神经元输出 \(m\) 维向量。那么，我们就随机生成一个 \(" />
   
 
   
@@ -15,18 +17,19 @@
   
   
   
-  <title>终于搭好了博客 | Shiyi001&#39;s Blog</title>
+  <title>CS231N实验：dropout | Shiyi001&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="费尽九牛二虎之力，终于把博客搭好了。 以后会在这里发布一些机器学习和深度学习相关的博客，欢迎大家围观哦~">
+  <meta name="description" content="PS: 本文默认已学习CS231N相关课程并掌握相关知识。  dropout的相关原理本文不再描述，详情请见Dropout (neural networks) 那么我们怎么实现dropout呢？假设我们有 \(n\) 个神经元，每个神经元输出 \(m\) 维向量。那么，我们就随机生成一个 \(n\) 维向量，并按一定比例将值设为0(随机失活)。 123456# forwardmask">
+<meta name="keywords" content="机器学习,Dropout">
 <meta property="og:type" content="article">
-<meta property="og:title" content="终于搭好了博客">
-<meta property="og:url" content="shiyi001.github.io/终于搭好了博客/index.html">
+<meta property="og:title" content="CS231N实验：dropout">
+<meta property="og:url" content="shiyi001.github.io/dropout/index.html">
 <meta property="og:site_name" content="Shiyi001&#39;s Blog">
-<meta property="og:description" content="费尽九牛二虎之力，终于把博客搭好了。 以后会在这里发布一些机器学习和深度学习相关的博客，欢迎大家围观哦~">
-<meta property="og:updated_time" content="2017-08-11T14:11:36.900Z">
+<meta property="og:description" content="PS: 本文默认已学习CS231N相关课程并掌握相关知识。  dropout的相关原理本文不再描述，详情请见Dropout (neural networks) 那么我们怎么实现dropout呢？假设我们有 \(n\) 个神经元，每个神经元输出 \(m\) 维向量。那么，我们就随机生成一个 \(n\) 维向量，并按一定比例将值设为0(随机失活)。 123456# forwardmask">
+<meta property="og:updated_time" content="2017-08-20T07:24:02.359Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="终于搭好了博客">
-<meta name="twitter:description" content="费尽九牛二虎之力，终于把博客搭好了。 以后会在这里发布一些机器学习和深度学习相关的博客，欢迎大家围观哦~">
+<meta name="twitter:title" content="CS231N实验：dropout">
+<meta name="twitter:description" content="PS: 本文默认已学习CS231N相关课程并掌握相关知识。  dropout的相关原理本文不再描述，详情请见Dropout (neural networks) 那么我们怎么实现dropout呢？假设我们有 \(n\) 个神经元，每个神经元输出 \(m\) 维向量。那么，我们就随机生成一个 \(n\) 维向量，并按一定比例将值设为0(随机失活)。 123456# forwardmask">
   
   
     <link rel="icon" href="/css/images/favicon.ico">
@@ -82,7 +85,7 @@ ga('send', 'pageview');
     </nav>
 </header>
       <div id="main" class="wrapper">
-        <div id="primary" class="site-content"><div id="content" role="main"><article id="post-终于搭好了博客" class="post-终于搭好了博客 post type-post status-publish format-standard hentry">
+        <div id="primary" class="site-content"><div id="content" role="main"><article id="post-dropout" class="post-dropout post type-post status-publish format-standard hentry">
     <!---->
 
       <header class="entry-header">
@@ -90,38 +93,45 @@ ga('send', 'pageview');
         
   
     <h1 class="entry-title article-title">
-      终于搭好了博客
+      CS231N实验：dropout
     </h1>
   
 
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/终于搭好了博客/" data-id="cj6keojli000a207q1q1mtf77" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/dropout/" data-id="cj6keojl30005207qlduw11yg" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
     <div class="entry-content">
       
-        <p>费尽九牛二虎之力，终于把博客搭好了。</p>
-<p>以后会在这里发布一些机器学习和深度学习相关的博客，欢迎大家围观哦~</p>
+        <blockquote>
+<p>PS: 本文默认已学习CS231N相关课程并掌握相关知识。</p>
+</blockquote>
+<p>dropout的相关原理本文不再描述，详情请见<a href="https://en.wikipedia.org/wiki/Dropout_(neural_networks)" target="_blank" rel="external">Dropout (neural networks)</a></p>
+<p>那么我们怎么实现dropout呢？假设我们有 <span class="math inline">\(n\)</span> 个神经元，每个神经元输出 <span class="math inline">\(m\)</span> 维向量。那么，我们就随机生成一个 <span class="math inline">\(n\)</span> 维向量，并按一定比例将值设为0(随机失活)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># forward</div><div class="line">mask = (np.random.random(x.shape[0]) &gt; p) / (1-p) # rescale</div><div class="line">out = x * (mask.reshape(-1, 1))</div><div class="line"></div><div class="line"># backword</div><div class="line">dx = mask.reshape(-1, 1) * dout</div></pre></td></tr></table></figure>
 
       
     </div><!-- .entry-content -->
 
     <footer class="entry-meta">
-    <a href="/终于搭好了博客/">
-    <time datetime="2017-08-11T14:09:10.000Z" class="entry-date">
-        2017-08-11
+    <a href="/dropout/">
+    <time datetime="2017-08-20T07:15:50.000Z" class="entry-date">
+        2017-08-20
     </time>
 </a>
     
   <span class="article-delim">&#8226;</span>
   <div class="article-category">
-  <a class="article-category-link" href="/categories/杂记/">杂记</a>
+  <a class="article-category-link" href="/categories/CS231N实验/">CS231N实验</a>
   </div>
 
     
+  <span class="article-delim">&#8226;</span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dropout/">Dropout</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+
     </footer>
 </article>
 
@@ -130,8 +140,8 @@ ga('send', 'pageview');
 <nav class="nav-single">
     <h3 class="assistive-text">文章导航</h3>
     
-        <span class="nav-previous"><a href="/“CS231N实验：KNN/" rel="prev"><span class="meta-nav">←</span> CS231N实验：KNN</a></span>
     
+        <span class="nav-next"><a href="/Optimization/" rel="next">CS231N实验：Optimization <span class="meta-nav">→</span></a></span>
     
 </nav><!-- .nav-single -->
 

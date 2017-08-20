@@ -77,6 +77,62 @@ ga('send', 'pageview');
       <div id="main" class="wrapper">
         <div id="primary" class="site-content"><div id="content" role="main">
   
+    <article id="post-dropout" class="post-dropout post type-post status-publish format-standard hentry">
+    <!---->
+
+      <header class="entry-header">
+        
+        
+  
+    <h1 class="entry-title">
+      <a class="article-title" href="/dropout/">CS231N实验：dropout</a>
+    </h1>
+  
+
+        
+        <div class="comments-link">
+            
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/dropout/" data-id="cj6keojl30005207qlduw11yg" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+        </div><!-- .comments-link -->
+      </header><!-- .entry-header -->
+
+    <div class="entry-content">
+      
+        <blockquote>
+<p>PS: 本文默认已学习CS231N相关课程并掌握相关知识。</p>
+</blockquote>
+<p>dropout的相关原理本文不再描述，详情请见<a href="https://en.wikipedia.org/wiki/Dropout_(neural_networks)" target="_blank" rel="external">Dropout (neural networks)</a></p>
+<p>那么我们怎么实现dropout呢？假设我们有 <span class="math inline">\(n\)</span> 个神经元，每个神经元输出 <span class="math inline">\(m\)</span> 维向量。那么，我们就随机生成一个 <span class="math inline">\(n\)</span> 维向量，并按一定比例将值设为0(随机失活)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># forward</div><div class="line">mask = (np.random.random(x.shape[0]) &gt; p) / (1-p) # rescale</div><div class="line">out = x * (mask.reshape(-1, 1))</div><div class="line"></div><div class="line"># backword</div><div class="line">dx = mask.reshape(-1, 1) * dout</div></pre></td></tr></table></figure>
+
+      
+    </div><!-- .entry-content -->
+
+    <footer class="entry-meta">
+    <a href="/dropout/">
+    <time datetime="2017-08-20T07:15:50.000Z" class="entry-date">
+        2017-08-20
+    </time>
+</a>
+    
+  <span class="article-delim">&#8226;</span>
+  <div class="article-category">
+  <a class="article-category-link" href="/categories/CS231N实验/">CS231N实验</a>
+  </div>
+
+    
+  <span class="article-delim">&#8226;</span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dropout/">Dropout</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+
+    </footer>
+</article>
+
+
+
+
+
+
+  
     <article id="post-Optimization" class="post-Optimization post type-post status-publish format-standard hentry">
     <!---->
 
@@ -92,7 +148,7 @@ ga('send', 'pageview');
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/Optimization/" data-id="cj6kebavb0000hk7qtaamay5f" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/Optimization/" data-id="cj6keojkn0000207q6popi6o8" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
@@ -144,7 +200,7 @@ ga('send', 'pageview');
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/Softmax/" data-id="cj6kebavr0005hk7qol11jong" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/Softmax/" data-id="cj6keojl30002207q1tyciz39" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
@@ -208,7 +264,7 @@ ga('send', 'pageview');
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/multiClassSVM/" data-id="cj6kebaw60006hk7qm958alpi" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/multiClassSVM/" data-id="cj6keojli0006207qs8zj6r8b" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
@@ -288,7 +344,7 @@ dW[:, l] &amp; = \frac{\partial (f(X[i])[j] - f(X[i])[y[i]] + 1)}{\partial W[:, 
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/“CS231N实验：KNN/" data-id="cj6kebaw60007hk7qgmy6mec0" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/“CS231N实验：KNN/" data-id="cj6keojli0007207qq3w0888w" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
@@ -446,6 +502,10 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
       <ul>
         
           <li>
+            <a href="/dropout/">CS231N实验：dropout</a>
+          </li>
+        
+          <li>
             <a href="/Optimization/">CS231N实验：Optimization</a>
           </li>
         
@@ -461,10 +521,6 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
             <a href="/“CS231N实验：KNN/">CS231N实验：KNN</a>
           </li>
         
-          <li>
-            <a href="/终于搭好了博客/">终于搭好了博客</a>
-          </li>
-        
       </ul>
     </div>
   </aside>
@@ -474,7 +530,7 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
   <aside class="widget">
     <h3 class="widget-title">Categories</h3>
     <div class="widget-content">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS231N实验/">CS231N实验</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂记/">杂记</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CS231N实验/">CS231N实验</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂记/">杂记</a><span class="category-list-count">1</span></li></ul>
     </div>
   </aside>
 
@@ -483,7 +539,7 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
   <aside class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-content">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KNN/">KNN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optimization/">Optimization</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVM/">SVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Softmax/">Softmax</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">4</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dropout/">Dropout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KNN/">KNN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optimization/">Optimization</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVM/">SVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Softmax/">Softmax</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">5</span></li></ul>
     </div>
   </aside>
 
@@ -492,7 +548,7 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
   <aside class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-content tagcloud">
-      <a href="/tags/KNN/" style="font-size: 10px;">KNN</a> <a href="/tags/Optimization/" style="font-size: 10px;">Optimization</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Softmax/" style="font-size: 10px;">Softmax</a> <a href="/tags/机器学习/" style="font-size: 20px;">机器学习</a>
+      <a href="/tags/Dropout/" style="font-size: 10px;">Dropout</a> <a href="/tags/KNN/" style="font-size: 10px;">KNN</a> <a href="/tags/Optimization/" style="font-size: 10px;">Optimization</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Softmax/" style="font-size: 10px;">Softmax</a> <a href="/tags/机器学习/" style="font-size: 20px;">机器学习</a>
     </div>
   </aside>
 
@@ -501,7 +557,7 @@ dists[i][j] &amp; = \sqrt{\sum_{l=1}^k(test[i][l] - train[j][l])^2} \\
   <aside class="widget">
     <h3 class="widget-title">Archives</h3>
     <div class="widget-content">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </aside>
 
