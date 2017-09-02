@@ -12,11 +12,11 @@
   
   
   
-  <title>Category: 杂记 | Shiyi001&#39;s Blog</title>
+  <title>Tag: EM算法 | Shiyi001&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Shiyi001&#39;s Blog">
-<meta property="og:url" content="shiyi001.github.io/categories/杂记/index.html">
+<meta property="og:url" content="shiyi001.github.io/tags/EM算法/index.html">
 <meta property="og:site_name" content="Shiyi001&#39;s Blog">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shiyi001&#39;s Blog">
@@ -77,7 +77,7 @@ ga('send', 'pageview');
       <div id="main" class="wrapper">
         <div id="primary" class="site-content"><div id="content" role="main">
   
-    <article id="post-终于搭好了博客" class="post-终于搭好了博客 post type-post status-publish format-standard hentry">
+    <article id="post-KMeans" class="post-KMeans post type-post status-publish format-standard hentry">
     <!---->
 
       <header class="entry-header">
@@ -85,38 +85,142 @@ ga('send', 'pageview');
         
   
     <h1 class="entry-title">
-      <a class="article-title" href="/终于搭好了博客/">终于搭好了博客</a>
+      <a class="article-title" href="/KMeans/">KMeans</a>
     </h1>
   
 
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/终于搭好了博客/" data-id="cj7304m40000bsc7qd9yt1cz2" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/KMeans/" data-id="cj7304m2p0000sc7qx62dt7k1" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
     <div class="entry-content">
       
-        <p>费尽九牛二虎之力，终于把博客搭好了。</p>
-<p>以后会在这里发布一些机器学习和深度学习相关的博客，欢迎大家围观哦~</p>
+        <p>KMeans是一种无监督的聚类模型（不熟悉的朋友可以看这篇<a href="http://www.cnblogs.com/luxiaoxun/archive/2013/05/09/3069594.html" target="_blank" rel="external">博客</a>）,其中，模型的求解可以用EM算法实现</p>
+<p>我们知道，KMeans的 $ Loss function $ 为</p>
+<p><span class="math display">\[ J=\sum _{n=1}^N\sum _{k=1}^K r_{nk}||x_n - u_k||^2 \]</span></p>
+<p>其中，$ K $ 为聚类中心数量， $ u_k $ 为每个聚类中心的向量表示</p>
+<h3 id="estep">Estep</h3>
+<p>在KMeans中，Estep主要完成对数据集的划分，也就是确定这个数据“属于”哪个聚类中心。用更数学的语言表达就是</p>
+<p><span class="math display">\[
+r_{nk}  = 
+{
+\begin{cases} 
+    1 &amp; if \ k = argmin_j ||x_n - u_j||^2 \\
+    0 &amp; otherwise. \\
+    \end{cases} 
+}
+\]</span></p>
+<h3 id="mstep">Mstep</h3>
+<p>Mstep主要完成对每个聚类中心的更新。对于 $ Loss function $ 简单求导便可知：</p>
+<p><span class="math display">\[ u_k = \frac{\sum _n r_{nk}x_n}{\sum _n r_{nk}} \]</span></p>
+<p>将Estep和Mstep不停地迭代，直到收敛~</p>
+<p>代码如下： https://github.com/shiyi001/EM-Algorithm/tree/master/KMeans</p>
 
       
     </div><!-- .entry-content -->
 
     <footer class="entry-meta">
-    <a href="/终于搭好了博客/">
-    <time datetime="2017-08-11T14:09:10.000Z" class="entry-date">
-        2017-08-11
+    <a href="/KMeans/">
+    <time datetime="2017-09-01T07:27:17.000Z" class="entry-date">
+        2017-09-01
     </time>
 </a>
     
-  <span class="article-delim">&#8226;</span>
-  <div class="article-category">
-  <a class="article-category-link" href="/categories/杂记/">杂记</a>
-  </div>
-
     
+  <span class="article-delim">&#8226;</span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EM算法/">EM算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KMeans/">KMeans</a></li></ul>
+
+    </footer>
+</article>
+
+
+
+
+
+
+  
+    <article id="post-EM-Algorithm" class="post-EM-Algorithm post type-post status-publish format-standard hentry">
+    <!---->
+
+      <header class="entry-header">
+        
+        
+  
+    <h1 class="entry-title">
+      <a class="article-title" href="/EM-Algorithm/">EM-Algorithm</a>
+    </h1>
+  
+
+        
+        <div class="comments-link">
+            
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/EM-Algorithm/" data-id="cj7304m40000esc7q2l572b5s" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+        </div><!-- .comments-link -->
+      </header><!-- .entry-header -->
+
+    <div class="entry-content">
+      
+        <p>今天，让我们讲一讲一个著名的算法：EM算法（期望最大化算法）。</p>
+<p>在讲EM算法之前，先让我们认识一个不等式：Jensen不等式</p>
+<blockquote>
+<p>对于凸函数 $ f $, 如果 $ X $ 是一个随机变量，那么总有 <span class="math inline">\(E[f(x)]\geq f(EX)\)</span></p>
+</blockquote>
+<p>在这里我们不提供严格证明，提供以下图片方便理解</p>
+<div class="figure">
+<img src="Jensen.jpg">
+
+</div>
+<p>好了，学会了这个不等式，我们就可以出发了~</p>
+<p>EM算法的主体思想是：找到一个下界函数，去逼近原函数，然后通过求下界函数的最大值来迭代求解原函数，类似下图：</p>
+<div class="figure">
+<img src="EM.png">
+
+</div>
+<p>接下来我们来看具体的流程</p>
+<p>对于任意的训练集 <span class="math inline">\(\{x^{(1)},x^{(2)},...,x^{(m)}\}\)</span> ,如果我们用模型 <span class="math inline">\(p(x,z)\)</span> 去拟合，可以得到下面的似然函数：</p>
+<span class="math display">\[\begin{align}
+\iota (\theta ) &amp;= \sum _{i=1}^{m}\log p(x;\theta ) \\
+&amp;=\sum _{i=1}^{m}\log\sum _{z}p(x,z;\theta )
+\end{align}\]</span>
+<p>我们令 <span class="math inline">\(Q_i\)</span> 为 <span class="math inline">\(z\)</span> 的某些分布（ <span class="math inline">\(\sum_z Q_i(z)=1\)</span> &amp;&amp; <span class="math inline">\(Q_i(z)\geq 0\)</span>）,则有</p>
+<span class="math display">\[\begin{align}
+\sum _i \log p(x^{(i)};\theta ) &amp;= \sum _i \log \sum _{z^{(i)}}p(x^{(i)},z^{(i)};\theta ) \\
+&amp; = \sum _i \log \sum _{z^{(i)}}Q_i(z^{(i)}) \frac {p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})} \\
+&amp; \geqslant \sum _i \sum _{z^{(i)}} Q_i(z^{(i)}) \log \frac {p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}
+\end{align}\]</span>
+<p>这里用到了Jensen不等式。因为对数函数是凹函数，所以这里不等号需要反过来。</p>
+<p>我们已经找到了原函数的下界函数，现在要做的是去逼近原函数。注意Jensen不等式的取等条件，当 <span class="math inline">\(F(x)=c\)</span> 时等号成立。</p>
+<p>所以有， <span class="math inline">\(\frac {p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}=c\)</span> ,也即 <span class="math inline">\(Q_i(z^{(i)})\propto p(x^{(i)},z^{(i)};\theta)\)</span></p>
+<p>因为 <span class="math inline">\(Q_i\)</span> 是 <span class="math inline">\(z^{(i)}\)</span> 的分布，所以有：</p>
+<span class="math display">\[\begin{align}
+Q_i(z^{(i)}) &amp; = \frac {p(x^{(i)},z^{(i)};\theta)}{\sum _z p(x^{(i)},z;\theta)} \\
+&amp; = \frac {p(x^{(i)},z^{(i)};\theta)}{p(x^{(i)};\theta)} \\
+&amp; = p(z^{(i)}|x^{(i)};\theta )
+\end{align}\]</span>
+<p>将值带入，我们就得到了一个在 <span class="math inline">\(\theta_0\)</span> 处“紧贴”原函数的下界函数。然后，我们去求令该下界函数取值最大的 <span class="math inline">\(\theta_1\)</span></p>
+<p>总结一下EM算法：</p>
+<p>repeat until convergence {</p>
+<p>(E-step)For each i, set <span class="math display">\[ Q_i(z^{(i)}) = p(z^{(i)}|x^{(i)};\theta ) \]</span> (M-step)Set <span class="math display">\[ \theta = argmax_\theta \sum _i \sum _{z^{(i)}} Q_i(z^{(i)}) \log \frac {p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})} \]</span> }</p>
+<p>EM算法的收敛性就不在本文证明，有兴趣的同学可以看CS229的<a href="http://cs229.stanford.edu/notes/cs229-notes8.pdf" target="_blank" rel="external">讲义</a></p>
+<p>下面给出两个EM算法的实践：KMeans和GMM</p>
+
+      
+    </div><!-- .entry-content -->
+
+    <footer class="entry-meta">
+    <a href="/EM-Algorithm/">
+    <time datetime="2017-09-01T05:57:24.000Z" class="entry-date">
+        2017-09-01
+    </time>
+</a>
+    
+    
+  <span class="article-delim">&#8226;</span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EM算法/">EM算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+
     </footer>
 </article>
 
@@ -302,6 +406,23 @@ ga('send', 'pageview');
 
 <div id="bg"></div>
 
-  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>

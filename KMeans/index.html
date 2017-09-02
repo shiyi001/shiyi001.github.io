@@ -5,6 +5,11 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   
   
+  <meta name="description" content="KMeans是一种无监督的聚类模型（不熟悉的朋友可以看这篇博客）,其中，模型的求解可以用EM算法实现
+我们知道，KMeans的 $ Loss function $ 为
+\[ J=\sum _{n=1}^N\sum _{k=1}^K r_{nk}||x_n - u_k||^2 \]
+其中，$ K" />
+  
 
   
   
@@ -12,14 +17,19 @@
   
   
   
-  <title>Category: 杂记 | Shiyi001&#39;s Blog</title>
+  <title>KMeans | Shiyi001&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Shiyi001&#39;s Blog">
-<meta property="og:url" content="shiyi001.github.io/categories/杂记/index.html">
+  <meta name="description" content="KMeans是一种无监督的聚类模型（不熟悉的朋友可以看这篇博客）,其中，模型的求解可以用EM算法实现 我们知道，KMeans的 $ Loss function $ 为 \[ J=\sum _{n=1}^N\sum _{k=1}^K r_{nk}||x_n - u_k||^2 \] 其中，$ K $ 为聚类中心数量， $ u_k $ 为每个聚类中心的向量表示 Estep 在KMeans中，">
+<meta name="keywords" content="EM算法,KMeans">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KMeans">
+<meta property="og:url" content="shiyi001.github.io/KMeans/index.html">
 <meta property="og:site_name" content="Shiyi001&#39;s Blog">
+<meta property="og:description" content="KMeans是一种无监督的聚类模型（不熟悉的朋友可以看这篇博客）,其中，模型的求解可以用EM算法实现 我们知道，KMeans的 $ Loss function $ 为 \[ J=\sum _{n=1}^N\sum _{k=1}^K r_{nk}||x_n - u_k||^2 \] 其中，$ K $ 为聚类中心数量， $ u_k $ 为每个聚类中心的向量表示 Estep 在KMeans中，">
+<meta property="og:updated_time" content="2017-09-02T08:02:52.202Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Shiyi001&#39;s Blog">
+<meta name="twitter:title" content="KMeans">
+<meta name="twitter:description" content="KMeans是一种无监督的聚类模型（不熟悉的朋友可以看这篇博客）,其中，模型的求解可以用EM算法实现 我们知道，KMeans的 $ Loss function $ 为 \[ J=\sum _{n=1}^N\sum _{k=1}^K r_{nk}||x_n - u_k||^2 \] 其中，$ K $ 为聚类中心数量， $ u_k $ 为每个聚类中心的向量表示 Estep 在KMeans中，">
   
   
     <link rel="icon" href="/css/images/favicon.ico">
@@ -75,58 +85,82 @@ ga('send', 'pageview');
     </nav>
 </header>
       <div id="main" class="wrapper">
-        <div id="primary" class="site-content"><div id="content" role="main">
-  
-    <article id="post-终于搭好了博客" class="post-终于搭好了博客 post type-post status-publish format-standard hentry">
+        <div id="primary" class="site-content"><div id="content" role="main"><article id="post-KMeans" class="post-KMeans post type-post status-publish format-standard hentry">
     <!---->
 
       <header class="entry-header">
         
         
   
-    <h1 class="entry-title">
-      <a class="article-title" href="/终于搭好了博客/">终于搭好了博客</a>
+    <h1 class="entry-title article-title">
+      KMeans
     </h1>
   
 
         
         <div class="comments-link">
             
-            <a href="javascript:void(0);" data-url="shiyi001.github.io/终于搭好了博客/" data-id="cj7304m40000bsc7qd9yt1cz2" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+            <a href="javascript:void(0);" data-url="shiyi001.github.io/KMeans/" data-id="cj7304m2p0000sc7qx62dt7k1" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
         </div><!-- .comments-link -->
       </header><!-- .entry-header -->
 
     <div class="entry-content">
       
-        <p>费尽九牛二虎之力，终于把博客搭好了。</p>
-<p>以后会在这里发布一些机器学习和深度学习相关的博客，欢迎大家围观哦~</p>
+        <p>KMeans是一种无监督的聚类模型（不熟悉的朋友可以看这篇<a href="http://www.cnblogs.com/luxiaoxun/archive/2013/05/09/3069594.html" target="_blank" rel="external">博客</a>）,其中，模型的求解可以用EM算法实现</p>
+<p>我们知道，KMeans的 $ Loss function $ 为</p>
+<p><span class="math display">\[ J=\sum _{n=1}^N\sum _{k=1}^K r_{nk}||x_n - u_k||^2 \]</span></p>
+<p>其中，$ K $ 为聚类中心数量， $ u_k $ 为每个聚类中心的向量表示</p>
+<h3 id="estep">Estep</h3>
+<p>在KMeans中，Estep主要完成对数据集的划分，也就是确定这个数据“属于”哪个聚类中心。用更数学的语言表达就是</p>
+<p><span class="math display">\[
+r_{nk}  = 
+{
+\begin{cases} 
+    1 &amp; if \ k = argmin_j ||x_n - u_j||^2 \\
+    0 &amp; otherwise. \\
+    \end{cases} 
+}
+\]</span></p>
+<h3 id="mstep">Mstep</h3>
+<p>Mstep主要完成对每个聚类中心的更新。对于 $ Loss function $ 简单求导便可知：</p>
+<p><span class="math display">\[ u_k = \frac{\sum _n r_{nk}x_n}{\sum _n r_{nk}} \]</span></p>
+<p>将Estep和Mstep不停地迭代，直到收敛~</p>
+<p>代码如下： https://github.com/shiyi001/EM-Algorithm/tree/master/KMeans</p>
 
       
     </div><!-- .entry-content -->
 
     <footer class="entry-meta">
-    <a href="/终于搭好了博客/">
-    <time datetime="2017-08-11T14:09:10.000Z" class="entry-date">
-        2017-08-11
+    <a href="/KMeans/">
+    <time datetime="2017-09-01T07:27:17.000Z" class="entry-date">
+        2017-09-01
     </time>
 </a>
     
-  <span class="article-delim">&#8226;</span>
-  <div class="article-category">
-  <a class="article-category-link" href="/categories/杂记/">杂记</a>
-  </div>
-
     
+  <span class="article-delim">&#8226;</span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EM算法/">EM算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KMeans/">KMeans</a></li></ul>
+
     </footer>
 </article>
 
 
+    
+<nav class="nav-single">
+    <h3 class="assistive-text">文章导航</h3>
+    
+    
+        <span class="nav-next"><a href="/EM-Algorithm/" rel="next">EM-Algorithm <span class="meta-nav">→</span></a></span>
+    
+</nav><!-- .nav-single -->
 
 
 
 
-  
-  
+
+
+
+
 
 </div></div>
         <div id="secondary" class="widget-area" role="complementary">
@@ -302,6 +336,23 @@ ga('send', 'pageview');
 
 <div id="bg"></div>
 
-  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>
